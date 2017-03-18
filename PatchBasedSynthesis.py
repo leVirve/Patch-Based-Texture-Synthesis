@@ -289,16 +289,16 @@ def quilt_patches(img_px, sample_px):
 # Growing Image Patch-by-patch #
 # ---------------------------- #
 def fill_image(img_px, sample_px):
-    for i in range(PatchSize):
-        for j in range(PatchSize):
-            img[img_px[0] + i, img_px[1] + j] = img_sample[sample_px[
-                0] + i, sample_px[1] + j]
-
+    x, y = img_px
+    ref_x, ref_y = sample_px
+    img[x:x + PatchSize, y:y + PatchSize] = \
+        img_sample[ref_x:ref_x + PatchSize, ref_y:ref_y + PatchSize]
 
 pixelsCompleted = 0
 TotalPatches = ((img_height - 1) / PatchSize) * ((img_width) / PatchSize) - 1
 sys.stdout.write(
-    "Progress : [%-20s] %d%% | PixelsCompleted: %d | ThresholdConstant: --.------"
+    "Progress : [%-20s] %d%% | PixelsCompleted: %d | "
+    "ThresholdConstant: --.------"
     % ('=' * int(pixelsCompleted * 20 / TotalPatches),
        (100 * pixelsCompleted) / TotalPatches, pixelsCompleted))
 sys.stdout.flush()
@@ -330,7 +330,8 @@ while GrowPatchLocation[0] + PatchSize < img_height:
     # print pixelsCompleted, ThresholdConstant
     sys.stdout.write('\r')
     sys.stdout.write(
-        "Progress : [%-20s] %d%% | PixelsCompleted: %d | ThresholdConstant: %f"
+        "Progress : [%-20s] %d%% | PixelsCompleted: %d | "
+        "ThresholdConstant: %f"
         % ('=' * int(pixelsCompleted * 20 / TotalPatches),
            (100 * pixelsCompleted) / TotalPatches, pixelsCompleted,
            ThresholdConstant))
