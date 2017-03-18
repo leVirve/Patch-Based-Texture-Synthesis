@@ -294,6 +294,7 @@ def fill_image(img_px, sample_px):
     img[x:x + PatchSize, y:y + PatchSize] = \
         img_sample[ref_x:ref_x + PatchSize, ref_y:ref_y + PatchSize]
 
+
 pixelsCompleted = 0
 TotalPatches = ((img_height - 1) / PatchSize) * ((img_width) / PatchSize) - 1
 sys.stdout.write(
