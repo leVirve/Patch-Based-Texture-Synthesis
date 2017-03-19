@@ -5,9 +5,9 @@ def insert_global_vars(vars):
     global img, img_sample
     global overlap, patch_sz
     global sample_height, sample_width
-    img, img_sample = vars['img'], vars['img_sample']
-    sample_height, sample_width = vars['sample_height'], vars['sample_width']
-    overlap, patch_sz = vars['OverlapWidth'], vars['PatchSize']
+    img, img_sample = vars.get('img'), vars.get('img_sample')
+    sample_height, sample_width = vars.get('sample_height'), vars.get('sample_width')
+    overlap, patch_sz = vars.get('OverlapWidth'), vars.get('PatchSize')
 
 
 # ------------------------------------ #
@@ -39,7 +39,30 @@ def overlap_error_horizntl(left_px, right_px):
     return overlap_err
 
 
-def get_best_patches(px, overlap_err_threshold):  # Will get called in GrowImage
+def get_best_tex_patches(px, overlap_err_threshold):
+    pixels = []
+
+    def ssd_error(img_pos, tex_pos):
+        ix, iy = img_pos
+        tx, ty = tex_pos
+        src = img.astype(np.int32)
+        tex = img_sample.astype(np.int32)
+        diff = (src[ix:ix + patch_sz, iy:iy + patch_sz]
+                - tex[tx:tx + patch_sz, ty:ty + patch_sz])
+        return np.sum(diff ** 2) ** 0.5
+
+    for i in range(patch_sz, sample_height - patch_sz):
+        for j in range(patch_sz, sample_width - patch_sz):
+            err = ssd_error((px[0], px[1]), (i, j))
+            if err < overlap_err_threshold:
+                pixels.append((i, j))
+            elif err < overlap_err_threshold:
+                return [(i, j)]
+
+    return pixels
+
+
+def get_best_patches(px, overlap_err_threshold):
     pixels = []
     # check for top layer
     if px[0] == 0:
@@ -265,8 +288,9 @@ def quilt_patches(img_px, sample_px):
 # ---------------------------- #
 # Growing Image Patch-by-patch #
 # ---------------------------- #
-def fill_image(img_px, sample_px):
+def fill_image(img_px, sample_px, output=None):
     x, y = img_px
     ref_x, ref_y = sample_px
-    img[x:x + patch_sz, y:y + patch_sz] = \
+    out = output if output is not None else img
+    out[x:x + patch_sz, y:y + patch_sz] = \
         img_sample[ref_x:ref_x + patch_sz, ref_y:ref_y + patch_sz]
