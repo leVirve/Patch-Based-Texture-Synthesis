@@ -1,14 +1,13 @@
 import numpy as np
 
 
-def insert_global_vars(local_vars):
+def insert_global_vars(vars):
     global img, img_sample
     global overlap, patch_sz
     global sample_height, sample_width
-    global overlap_err_threshold
+    img, img_sample = vars['img'], vars['img_sample']
     sample_height, sample_width = vars['sample_height'], vars['sample_width']
     overlap, patch_sz = vars['OverlapWidth'], vars['PatchSize']
-    overlap_err_threshold = vars['ThresholdOverlapError']
 
 
 # ------------------------------------ #
@@ -42,7 +41,7 @@ def overlap_error_horizntl(left_px, right_px):
     return overlap_err
 
 
-def get_best_patches(px):  # Will get called in GrowImage
+def get_best_patches(px, overlap_err_threshold):  # Will get called in GrowImage
     pixels = []
     # check for top layer
     if px[0] == 0:

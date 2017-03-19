@@ -49,7 +49,7 @@ while GrowPatchLocation[0] + PatchSize < img_height:
     while progress == 0:
         ThresholdOverlapError = ThresholdConstant * PatchSize * OverlapWidth
         # Get Best matches for current pixel
-        List = get_best_patches(GrowPatchLocation)
+        List = get_best_patches(GrowPatchLocation, ThresholdOverlapError)
         if len(List) > 0:
             progress = 1
             # Make A random selection from best fit pxls
