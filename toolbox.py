@@ -16,28 +16,26 @@ def insert_global_vars(vars):
 def overlap_error_vertical(img_px, sample_px):
     iLeft, jLeft = img_px
     iRight, jRight = sample_px
-    overlap_err = 0
-    diff = np.zeros((3))
-    for i in range(patch_sz):
-        for j in range(overlap):
-            for c in range(3):
-                diff[c] = int(img[i + iLeft, j + jLeft][c]) - int(
-                    img_sample[i + iRight, j + jRight][c])
-            overlap_err += (diff[0]**2 + diff[1]**2 + diff[2]**2)**0.5
+    img_int = img.astype(np.int32)
+    img_sample_int = img_sample.astype(np.int32)
+
+    diff = (img_int[iLeft:iLeft + patch_sz, jLeft:jLeft + overlap]
+            - img_sample_int[iRight:iRight + patch_sz, jRight:jRight + overlap])
+    overlap_err = np.sum(np.sum(diff**2, axis=2)**0.5)
+
     return overlap_err
 
 
 def overlap_error_horizntl(left_px, right_px):
     iLeft, jLeft = left_px
     iRight, jRight = right_px
-    overlap_err = 0
-    diff = np.zeros((3))
-    for i in range(overlap):
-        for j in range(patch_sz):
-            for c in range(3):
-                diff[c] = int(img[i + iLeft, j + jLeft][c]) - int(
-                    img_sample[i + iRight, j + jRight][c])
-            overlap_err += (diff[0]**2 + diff[1]**2 + diff[2]**2)**0.5
+    img_int = img.astype(np.int32)
+    img_sample_int = img_sample.astype(np.int32)
+
+    diff = (img_int[iLeft:iLeft + overlap, jLeft:jLeft + patch_sz]
+            - img_sample_int[iRight:iRight + overlap, jRight:jRight + patch_sz])
+    overlap_err = np.sum(np.sum(diff**2, axis=2)**0.5)
+
     return overlap_err
 
 
