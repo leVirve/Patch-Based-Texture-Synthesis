@@ -56,7 +56,7 @@ def get_best_tex_patches(px, overlap_err_threshold):
             err = ssd_error((px[0], px[1]), (i, j))
             if err < overlap_err_threshold:
                 pixels.append((i, j))
-            elif err < overlap_err_threshold:
+            elif err < overlap_err_threshold / 2:
                 return [(i, j)]
 
     return pixels

@@ -18,10 +18,15 @@ for example
 ## Texture Transfer
 
 ```bash
-python PatchBasedTextureTransfer.py
+python PatchBasedTextureTransfer.py {texture_image} {source_image}
 ```
 
 Sample result
 - Transfer texture (`textures/rice.png`) onto source image (`src.jpg`)
 
-    ![](results/output.png)
+    - Patch-based
+
+        ![](results/output.png)
+    - Patch-based with overlap cost
+
+        ![](results/output_with_overlap.png)
