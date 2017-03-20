@@ -1,6 +1,9 @@
 # Patch-based Texture Synthesis and Transfer
 
-It's an implementation of `Efros and Freeman's "Image Quilting and Texture Synthesis", 2001`
+*Revised and improved version by **Salas** ([leVirve](https://github.com/leVirve)@github)*
+
+An implementation of `"Image Quilting and Texture Synthesis, Efros and Freeman", SIGGRAPH 2002`
+(published in 2001)
 
 The output depends on two factors : `PatchSize` and `OverlapWidth`
 The running time depends on Sample Image dimensions, Desired Image dimensions, ThresholdConstant and PatchSize
@@ -8,7 +11,7 @@ The running time depends on Sample Image dimensions, Desired Image dimensions, T
 ## Texture Sythesis
 
 ```bash
-python PatchBasedSynthesis.py /image/source.jpg Patch_Size Overlap_Width Initial_Threshold_error
+python PatchBasedSynthesis.py {source_image} {Patch_Size} {Overlap_Width} {Initial_Threshold_error}
 ```
 
 for example
@@ -20,6 +23,9 @@ for example
 ```bash
 python PatchBasedTextureTransfer.py {texture_image} {source_image}
 ```
+for example
+
+`python PatchBasedTextureTransfer.py textures/rice.png src.jpg`
 
 Sample result
 - Transfer texture (`textures/rice.png`) onto source image (`src.jpg`)
