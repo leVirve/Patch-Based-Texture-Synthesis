@@ -21,7 +21,7 @@ for example
 ## Texture Transfer
 
 ```bash
-python PatchBasedTextureTransfer.py {texture_image} {source_image}
+python PatchBasedTextureTransfer.py {texture_image} {source_image} {patch_size} {overlap_width} {init_threshold_scale}
 ```
 for example
 
