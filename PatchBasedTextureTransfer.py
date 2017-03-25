@@ -69,7 +69,7 @@ def get_luminace(img):
     return ycc[:, :, 0]
 
 
-def gaussian_blur(img, kernel=(5, 5), sigma=0):
+def gaussian_blur(img, kernel=(9, 9), sigma=2):
     return cv2.GaussianBlur(img, kernel, sigma)
 
 
